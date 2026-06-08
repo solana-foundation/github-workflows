@@ -43,7 +43,8 @@ on:
         type: string
         default: "0"
       use-program-metadata-idl:
-        description: "Use program-metadata program for IDL upload instead of Anchor IDL
+        description:
+          "Use program-metadata program for IDL upload instead of Anchor IDL
           commands"
         required: false
         type: boolean
@@ -54,13 +55,15 @@ on:
         required: false
         default: ""
       override-solana-version:
-        description: "The version is taken from the cargo.lock but you can also override
+        description:
+          "The version is taken from the cargo.lock but you can also override
           it here"
         type: string
         required: false
         default: ""
       override-anchor-version:
-        description: "The version is taken from the cargo.lock but you can also override
+        description:
+          "The version is taken from the cargo.lock but you can also override
           it here"
         type: string
         required: false
@@ -95,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      SOLANA_VERIFY_VERSION: "0.4.15"
+      SOLANA_VERIFY_VERSION: "0.5.0"
     outputs:
       buffer: ${{ steps.program-buffer.outputs.buffer }}
       idl_buffer: ${{ steps.idl-buffer.outputs.buffer }}
@@ -311,7 +314,8 @@ jobs:
             ./target/deploy/${{ env.PROGRAM_NAME }}.so
 
       - name: Store idl files
-        if: ${{ !env.ACT && hashFiles(format('./target/idl/{0}.json', env.PROGRAM_NAME))
+        if:
+          ${{ !env.ACT && hashFiles(format('./target/idl/{0}.json', env.PROGRAM_NAME))
           != '' }}
         uses: actions/upload-artifact@v4
         with:
@@ -336,7 +340,8 @@ jobs:
           program: ${{ env.PROGRAM_NAME }}
           rpc-url: ${{ env.DEPLOY_URL }}
           keypair: ${{ env.DEPLOYER_KEYPAIR }}
-          buffer-authority-address: ${{ inputs.use-squads == true && env.MULTISIG_VAULT ||
+          buffer-authority-address:
+            ${{ inputs.use-squads == true && env.MULTISIG_VAULT ||
             env.DEPLOYER_ADDRESS }}
           priority-fee: ${{ inputs.priority-fee }}
 
@@ -376,7 +381,8 @@ jobs:
 
       - name: IDL Upload (Anchor)
         uses: solana-developers/github-actions/idl-upload@v0.2.10
-        if: inputs.upload_idl && !inputs.use-program-metadata-idl && inputs.use-squads
+        if:
+          inputs.upload_idl && !inputs.use-program-metadata-idl && inputs.use-squads
           == false
         with:
           program-id: ${{ env.PROGRAM_ID }}
@@ -386,7 +392,8 @@ jobs:
 
       - name: Metadata Upload (Program Metadata - direct)
         uses: solana-developers/github-actions/metadata-upload@v0.2.10
-        if: inputs.upload_idl && inputs.use-program-metadata-idl && inputs.use-squads ==
+        if:
+          inputs.upload_idl && inputs.use-program-metadata-idl && inputs.use-squads ==
           false
         with:
           program-id: ${{ env.PROGRAM_ID }}
@@ -429,7 +436,8 @@ jobs:
           use-squads: ${{ inputs.use-squads }}
           vault-address: ${{ env.MULTISIG_VAULT }}
 
-      - name: Create squads program upgrade transaction (set Idl buffer, verify pda, set
+      - name:
+          Create squads program upgrade transaction (set Idl buffer, verify pda, set
           program buffer)
         if: inputs.deploy && inputs.use-squads
         uses: solana-developers/squads-program-action@v0.4.3
