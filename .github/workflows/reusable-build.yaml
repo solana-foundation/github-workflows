@@ -156,11 +156,11 @@ jobs:
             echo "MULTISIG_VAULT=${{ secrets.DEVNET_MULTISIG_VAULT }}" >> $GITHUB_ENV
           fi
 
-      - uses: solana-foundation/github-actions/extract-versions@v0.2.10
+      - uses: solana-foundation/github-actions/extract-versions@v0.2.11
         if: inputs.override-solana-version == '' || inputs.override-anchor-version == ''
         id: versions
 
-      - uses: solana-foundation/github-actions/setup-all@v0.2.10
+      - uses: solana-foundation/github-actions/setup-all@v0.2.11
         id: setup
         with:
           solana_version: ${{ inputs.override-solana-version != '' &&
@@ -253,14 +253,14 @@ jobs:
           fi
 
       - name: Build Anchor
-        uses: solana-foundation/github-actions/build-anchor@v0.2.10
+        uses: solana-foundation/github-actions/build-anchor@v0.2.11
         if: steps.check-anchor.outputs.is_anchor == 'true'
         with:
           program: ${{ env.PROGRAM_NAME }}
           features: ${{ inputs.features }}
 
       - name: Build Verified
-        uses: solana-foundation/github-actions/build-verified@v0.2.10
+        uses: solana-foundation/github-actions/build-verified@v0.2.11
         id: build-verified
         with:
           program: ${{ env.PROGRAM_NAME }}
@@ -332,7 +332,7 @@ jobs:
           fi
 
       - name: Write Program Buffer
-        uses: solana-foundation/github-actions/write-program-buffer@v0.2.10
+        uses: solana-foundation/github-actions/write-program-buffer@v0.2.11
         id: program-buffer
         if: inputs.deploy
         with:
@@ -346,7 +346,7 @@ jobs:
           priority-fee: ${{ inputs.priority-fee }}
 
       - name: Write IDL Buffer (Anchor)
-        uses: solana-foundation/github-actions/write-idl-buffer@v0.2.10
+        uses: solana-foundation/github-actions/write-idl-buffer@v0.2.11
         id: idl-buffer
         if: inputs.upload_idl && !inputs.use-program-metadata-idl
         with:
@@ -358,7 +358,7 @@ jobs:
             env.DEPLOYER_ADDRESS }}
 
       - name: Write Metadata Buffer (Program Metadata)
-        uses: solana-foundation/github-actions/write-metadata-buffer@v0.2.10
+        uses: solana-foundation/github-actions/write-metadata-buffer@v0.2.11
         id: metadata-buffer
         if: inputs.upload_idl && inputs.use-program-metadata-idl && inputs.use-squads
         with:
@@ -369,7 +369,7 @@ jobs:
           priority-fees: ${{ inputs.priority-fee }}
 
       - name: Program Upgrade
-        uses: solana-foundation/github-actions/program-upgrade@v0.2.10
+        uses: solana-foundation/github-actions/program-upgrade@v0.2.11
         if: inputs.deploy && inputs.use-squads == false
         with:
           program-id: ${{ env.PROGRAM_ID }}
@@ -380,7 +380,7 @@ jobs:
           program-keypair: ${{ secrets.PROGRAM_ADDRESS_KEYPAIR }}
 
       - name: IDL Upload (Anchor)
-        uses: solana-foundation/github-actions/idl-upload@v0.2.10
+        uses: solana-foundation/github-actions/idl-upload@v0.2.11
         if:
           inputs.upload_idl && !inputs.use-program-metadata-idl && inputs.use-squads
           == false
@@ -391,7 +391,7 @@ jobs:
           idl-buffer: ${{ steps.idl-buffer.outputs.buffer }}
 
       - name: Metadata Upload (Program Metadata - direct)
-        uses: solana-foundation/github-actions/metadata-upload@v0.2.10
+        uses: solana-foundation/github-actions/metadata-upload@v0.2.11
         if:
           inputs.upload_idl && inputs.use-program-metadata-idl && inputs.use-squads ==
           false
@@ -404,7 +404,7 @@ jobs:
           priority-fees: ${{ inputs.priority-fee }}
 
       - name: Metadata Upload (Program Metadata - Squads buffer)
-        uses: solana-foundation/github-actions/metadata-upload@v0.2.10
+        uses: solana-foundation/github-actions/metadata-upload@v0.2.11
         if: inputs.upload_idl && inputs.use-program-metadata-idl && inputs.use-squads
         with:
           program-id: ${{ env.PROGRAM_ID }}
@@ -422,7 +422,7 @@ jobs:
         run: sleep 14
 
       - name: Verify Build
-        uses: solana-foundation/github-actions/verify-build@v0.2.10
+        uses: solana-foundation/github-actions/verify-build@v0.2.11
         id: verify-build
         if: inputs.verify
         with:
