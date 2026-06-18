@@ -1,9 +1,23 @@
 ## Reusable Github workflow to build, deploy and verify solana programs and IDLs
 
 This repository provides GitHub workflows that automatically build, verify, and deploy solana programs including their IDL uploads.
-These workflows use the [solana developers github actions](https://github.com/solana-developers/github-actions) and combine them into an easy to use workflow. 
+These workflows use the [Solana Foundation GitHub Actions](https://github.com/solana-foundation/github-actions) and combine them into an easy to use workflow. 
 There is also squads multisig support which is highly recommended to be used.
-For the workflow you just need to set `use-squads` to true and add the needed secrets to use the [squads program action](https://github.com/solana-developers/squads-program-action) automatically.
+For the workflow you just need to set `use-squads` to true and add the needed secrets to use the [squads program action](https://github.com/solana-foundation/squads-program-action) automatically.
+
+### Migrating from solana-developers
+
+This repository moved from `solana-developers` to `solana-foundation`. Update your workflow references:
+
+```yaml
+# Before
+uses: solana-developers/github-workflows/.github/workflows/reusable-build.yaml@v0.3.6
+
+# After
+uses: solana-foundation/github-workflows/.github/workflows/reusable-build.yaml@v0.4.0
+```
+
+If you call `solana-developers/github-actions` or `solana-developers/squads-program-action` directly in your own workflows, update those references to `solana-foundation` as well.
 
 ### Features
 
@@ -38,7 +52,7 @@ on:
 
 jobs:
   build:
-    uses: solana-developers/github-workflows/.github/workflows/reusable-build.yaml@v0.3.6
+    uses: solana-foundation/github-workflows/.github/workflows/reusable-build.yaml@v0.4.0
     with:
       program: "hello_world"
       program-id: "YOUR_PROGRAM_ID"
@@ -70,7 +84,7 @@ on:
 
 jobs:
   build:
-    uses: solana-developers/github-workflows/.github/workflows/reusable-build.yaml@v0.3.6
+    uses: solana-foundation/github-workflows/.github/workflows/reusable-build.yaml@v0.4.0
     with:
       program: "transaction_example"
       program-id: "YOUR_PROGRAM_ID"
@@ -138,7 +152,7 @@ on:
 
 jobs:
   test:
-    uses: solana-developers/github-workflows/.github/workflows/test.yaml@v0.3.6
+    uses: solana-foundation/github-workflows/.github/workflows/test.yaml@v0.4.0
     with:
       program: ${{ 'transaction_example' }}
 ```
@@ -229,7 +243,7 @@ solana-verify remote submit-job --program-id <yourProgramId>  --uploader <yourSq
 
 Close Buffer:
 
-In case your workflow fails and the buffer was already created and transfered to your squads vault you can close that buffer using this [script](https://github.com/solana-developers/github-actions?tab=readme-ov-file#close-buffer-in-case-of-failure). 
+In case your workflow fails and the buffer was already created and transfered to your squads vault you can close that buffer using this [script](https://github.com/solana-foundation/github-actions?tab=readme-ov-file#close-buffer-in-case-of-failure). 
 
 
 ### Running the actions locally (optional)
