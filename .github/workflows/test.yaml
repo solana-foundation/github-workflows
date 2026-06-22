@@ -12,6 +12,10 @@ on:
         required: false
         type: string
         default: "*"
+      testresults:
+        description: "Optional testresults to upload"
+        required: false
+        type: string
 
 jobs:
   test:
@@ -33,3 +37,11 @@ jobs:
           solana_version: ${{ steps.versions.outputs.solana_version }}
           anchor_version: ${{ steps.versions.outputs.anchor_version }}
           program: ${{ inputs.program }}
+
+      # Conditionally upload the file if filename is set
+      - name: Upload Test Results (if filename is set)
+        if: inputs.testresults != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ${{ inputs.testresults }}
